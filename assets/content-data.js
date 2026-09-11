@@ -37,7 +37,7 @@ const CONTENT_ITEMS = [
   makeItem({
   id: "carbon-pricing-economies",
   title: "Introduction",
-  youtubeVideoId: "f1O5nDe36EA",
+  youtubeVideoId: "f105nDe36EA",
   tags: ["Climate Policy", "Public Finance"],
   views: 4200,
   date: "2026-07-18",
