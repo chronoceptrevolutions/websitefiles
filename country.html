@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Country content — Chronocept Revolutions</title>
+<link rel="icon" href="assets/img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+  .empty-note{
+    background:var(--paper-card); border:1px dashed var(--line); border-radius:14px;
+    padding:28px 32px; font-size:14.5px; color:var(--ink-soft); margin-bottom:12px;
+  }
+  .global-toggle-row{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px; margin-bottom:30px;}
+</style>
+</head>
+<body data-page="">
+<div id="siteNav"></div>
+
+<section style="padding-bottom:0;">
+  <div class="wrap">
+    <div class="section-head tight">
+      <span class="eyebrow">Country content</span>
+      <h1 id="countryTitle">Country</h1>
+      <p id="countryIntro"></p>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0;">
+  <div class="wrap">
+    <div id="noContentNote" style="display:none;" class="empty-note">
+      Nothing published for this country yet — it's on the list. In the meantime, here's our global content below.
+    </div>
+    <div class="content-grid" id="countryGrid"></div>
+    <div id="countryPagination"></div>
+  </div>
+</section>
+
+<div class="torn"><svg preserveAspectRatio="none" viewBox="0 0 1200 26"><polygon fill="#F1EADB" points="0,26 0,10 20,16 45,6 70,14 95,4 120,12 145,2 170,10 195,3 220,13 245,5 270,15 295,4 320,11 345,2 370,14 395,6 420,12 445,3 470,15 495,5 520,10 545,2 570,13 595,4 620,11 645,3 670,15 695,6 720,12 745,2 770,14 795,5 820,10 845,3 870,13 895,4 920,11 945,2 970,15 995,6 1020,12 1045,3 1070,14 1095,5 1120,10 1145,3 1170,13 1200,6 1200,26"></polygon></svg></div>
+
+<section id="globalFallback" style="background:var(--paper-card-2);">
+  <div class="wrap">
+    <div class="global-toggle-row">
+      <div class="section-head tight" style="margin-bottom:0;">
+        <span class="eyebrow">Not tied to one place</span>
+        <h2 id="globalHeading">Global content</h2>
+      </div>
+      <a href="content.html" class="btn btn-ghost">View full library</a>
+    </div>
+    <div class="content-grid" id="globalGrid"></div>
+  </div>
+</section>
+
+<div id="siteFooter"></div>
+
+<script src="assets/shared.js"></script>
+<script src="assets/content-data.js"></script>
+<script src="assets/content-render.js"></script>
+<script>
+  const PER_PAGE = 10;
+  const params = new URLSearchParams(window.location.search);
+  const iso = params.get("iso");
+  const name = params.get("name") || "This country";
+  let page = 1;
+
+  document.getElementById("countryTitle").textContent = name;
+
+  const items = iso ? sortByNewest(getContentByIso(iso)) : [];
+
+  function renderCountryPage() {
+    const start = (page - 1) * PER_PAGE;
+    renderCardGrid(document.getElementById("countryGrid"), items.slice(start, start + PER_PAGE));
+    renderPagination(document.getElementById("countryPagination"), items.length, page, PER_PAGE, (p) => {
+      page = p;
+      renderCountryPage();
+      window.scrollTo({ top: document.getElementById("countryGrid").offsetTop - 100, behavior: "smooth" });
+    });
+  }
+
+  if (items.length) {
+    document.getElementById("countryIntro").textContent =
+      `${items.length} piece${items.length === 1 ? "" : "s"} of content published for ${name}, newest first.`;
+    renderCountryPage();
+    document.getElementById("globalHeading").textContent = "Prefer something global?";
+  } else {
+    document.getElementById("countryIntro").textContent =
+      `We haven't published country-specific content for ${name} yet.`;
+    document.getElementById("noContentNote").style.display = "block";
+    document.getElementById("globalHeading").textContent = "Global content";
+  }
+
+  renderCardGrid(document.getElementById("globalGrid"), sortByNewest(getGlobalContent()).slice(0, 8));
+</script>
+</body>
+</html>
