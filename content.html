@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Content — Chronocept Revolutions</title>
+<meta name="description" content="Every Chronocept Revolutions video and companion write-up, newest or most viewed.">
+<link rel="icon" href="assets/img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+  .content-header{padding-bottom:8px;}
+  .content-header p{max-width:600px;}
+</style>
+</head>
+<body data-page="content.html">
+<div id="siteNav"></div>
+
+<section class="content-header">
+  <div class="wrap">
+    <div class="section-head tight">
+      <span class="eyebrow">Every video, one place</span>
+      <h1>Content Library</h1>
+      <p>Every Issue / How Others Do It / Solution write-up we've published, paired with its video. Browse newest
+        first or sort by what's resonating most.</p>
+    </div>
+    <div class="filter-bar" id="libraryFilterBar">
+      <button class="filter-pill active" data-filter="newest">Newest</button>
+      <button class="filter-pill" data-filter="most-viewed">Most Viewed</button>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0;">
+  <div class="wrap">
+    <div class="content-grid" id="libraryGrid"></div>
+    <div id="libraryPagination"></div>
+  </div>
+</section>
+
+<div id="siteFooter"></div>
+
+<script src="assets/shared.js"></script>
+<script src="assets/content-data.js"></script>
+<script src="assets/content-render.js"></script>
+<script src="assets/youtube.js"></script>
+<script>
+  const PER_PAGE = 12;
+  let currentPage = 1;
+  let currentSort = "newest";
+
+  function currentItems() {
+    return currentSort === "most-viewed" ? sortByViews(CONTENT_ITEMS) : sortByNewest(CONTENT_ITEMS);
+  }
+
+  function renderLibrary() {
+    const items = currentItems();
+    const start = (currentPage - 1) * PER_PAGE;
+    renderCardGrid(document.getElementById("libraryGrid"), items.slice(start, start + PER_PAGE));
+    renderPagination(document.getElementById("libraryPagination"), items.length, currentPage, PER_PAGE, (p) => {
+      currentPage = p;
+      renderLibrary();
+      window.scrollTo({ top: document.getElementById("libraryGrid").offsetTop - 100, behavior: "smooth" });
+    });
+  }
+
+  document.getElementById("libraryFilterBar").addEventListener("click", (e) => {
+    const btn = e.target.closest(".filter-pill");
+    if (!btn) return;
+    document.querySelectorAll("#libraryFilterBar .filter-pill").forEach((b) => b.classList.remove("active"));
+    btn.classList.add("active");
+    currentSort = btn.dataset.filter;
+    currentPage = 1;
+    renderLibrary();
+  });
+
+  syncYouTubeStats(CONTENT_ITEMS).then(renderLibrary);
+  renderLibrary();
+</script>
+</body>
+</html>
