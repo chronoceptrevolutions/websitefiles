@@ -1,0 +1,249 @@
+/* ============================================================
+   CHRONOCEPT REVOLUTIONS — SHARED DESIGN SYSTEM
+   Layout/typography borrowed from the founder's portfolio site;
+   accent palette matches the portfolio's original green
+   (athreyakannan.netlify.app), swapped in from the earlier blue pass.
+   Variable names still say "blue" from that earlier iteration —
+   only the hex values changed — kept as-is to avoid touching every
+   usage site across the codebase.
+   ============================================================ */
+:root{
+  --paper:#EDE6D4;
+  --paper-card:#F7F2E5;
+  --paper-card-2:#F1EADB;
+  --ink:#38352C;
+  --ink-soft:#5C584C;
+  --ink-faint:#8B8676;
+
+  /* Accent scale — matches the portfolio's green exactly */
+  --blue:#3E5C43;         /* primary accent — headings, links, buttons */
+  --blue-deep:#243824;    /* darkest — footer bg, strong emphasis */
+  --blue-navy:#2E4A32;    /* dark-mid */
+  --blue-mid:#436B49;     /* medium */
+  --blue-teal:#3E6B5E;    /* teal-green midtone */
+  --blue-sky:#6C8F6C;     /* light sage, matches map "project" highlight */
+  --blue-pale:#A7C0A0;    /* pale */
+  --blue-mist:#DCE6D5;    /* very pale mist */
+
+  --map-land:#726D5D;
+  --map-land-hover:#5B5749;
+
+  --line: rgba(56,53,44,0.14);
+  --shadow: 0 10px 30px rgba(46,44,36,0.10);
+
+  --serif: 'Fraunces', Georgia, serif;
+  --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --mono: 'IBM Plex Mono', monospace;
+
+  --maxw: 1120px;
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background-color: var(--paper);
+  color: var(--ink-soft);
+  font-family: var(--sans);
+  font-size:16px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%; display:block;}
+a{color:inherit;}
+button{font-family:inherit;}
+h1,h2,h3,h4{
+  font-family: var(--serif);
+  color: var(--blue-deep);
+  margin:0 0 0.4em 0;
+  font-weight:500;
+  letter-spacing:-0.01em;
+}
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 32px;}
+.eyebrow{
+  font-family: var(--mono);
+  text-transform:uppercase;
+  letter-spacing:0.14em;
+  font-size:12px;
+  color: var(--blue-teal);
+  margin-bottom:10px;
+  display:block;
+}
+section{padding:88px 0; position:relative;}
+.section-head{max-width:640px; margin-bottom:56px;}
+.section-head.tight{margin-bottom:30px;}
+.section-head.center{margin-left:auto; margin-right:auto; text-align:center;}
+.section-head h2{font-size:clamp(28px,3.4vw,40px);}
+.section-head p{color:var(--ink-soft); font-size:16px; margin:0;}
+
+::selection{background:var(--blue-pale); color:var(--blue-deep);}
+:focus-visible{outline:2px solid var(--blue); outline-offset:3px;}
+
+/* torn paper divider between sections - signature motif from the portfolio */
+.torn{position:relative; height:26px; width:100%; overflow:hidden; margin-top:-1px; background:var(--paper);}
+.torn svg{position:absolute; top:0; left:0; width:100%; height:100%;}
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.navbar{
+  position:sticky; top:0; z-index:100;
+  background:rgba(237,230,212,0.94);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+}
+.navbar .wrap{
+  display:flex; align-items:center; justify-content:space-between;
+  padding-top:14px; padding-bottom:14px; gap:20px;
+}
+.nav-mark{
+  display:flex; align-items:center; gap:10px;
+  font-family:var(--serif); font-weight:700; color:var(--blue-deep);
+  font-size:18px; white-space:nowrap; text-decoration:none; flex:none;
+}
+.nav-mark img{height:34px; width:34px; object-fit:contain;}
+.nav-links{
+  display:flex; gap:2px; list-style:none; margin:0; padding:0;
+  overflow-x:auto; scrollbar-width:none;
+}
+.nav-links::-webkit-scrollbar{display:none;}
+.nav-links a{
+  text-decoration:none; font-size:13px; font-weight:600;
+  color:var(--ink-soft); white-space:nowrap;
+  padding:8px 14px; border-radius:20px; transition:all .2s ease;
+}
+.nav-links a:hover, .nav-links a.active{background:var(--blue); color:var(--paper-card);}
+.nav-toggle{
+  display:none; flex:none; width:38px; height:38px; border-radius:10px;
+  background:transparent; border:1px solid var(--line); cursor:pointer;
+  align-items:center; justify-content:center;
+}
+.nav-toggle span, .nav-toggle span::before, .nav-toggle span::after{
+  content:""; display:block; width:18px; height:2px; background:var(--blue-deep);
+  position:relative; transition:transform .2s ease, opacity .2s ease;
+}
+.nav-toggle span::before{position:absolute; top:-6px;}
+.nav-toggle span::after{position:absolute; top:6px;}
+.nav-toggle.is-open span{background:transparent;}
+.nav-toggle.is-open span::before{transform:translateY(6px) rotate(45deg);}
+.nav-toggle.is-open span::after{transform:translateY(-6px) rotate(-45deg);}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  font-weight:700; font-size:14px; padding:13px 26px; border-radius:30px;
+  text-decoration:none; cursor:pointer; border:none; transition:transform .15s ease, box-shadow .15s ease, background .2s ease;
+  font-family:var(--sans);
+}
+.btn:hover{transform:translateY(-1px);}
+.btn-primary{background:var(--blue); color:var(--paper-card);}
+.btn-primary:hover{background:var(--blue-navy); box-shadow:var(--shadow);}
+.btn-ghost{background:var(--paper-card); color:var(--blue-deep); border:1px solid var(--line);}
+.btn-ghost:hover{border-color:var(--blue-teal); box-shadow:var(--shadow);}
+.btn-outline-invert{background:transparent; color:var(--paper-card); border:1px solid rgba(227,244,248,0.4);}
+.btn-outline-invert:hover{background:rgba(227,244,248,0.12);}
+.btn:disabled{opacity:0.6; cursor:not-allowed; transform:none;}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer{background:var(--blue-deep); color:var(--blue-mist); padding:56px 0 32px;}
+footer h2{color:var(--paper-card);}
+footer .wrap{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:24px;}
+.footer-brand{display:flex; align-items:center; gap:10px; font-family:var(--serif); font-size:17px; color:var(--paper-card);}
+.footer-brand img{height:30px; width:30px; object-fit:contain;}
+.footer-links{display:flex; gap:22px; flex-wrap:wrap;}
+.footer-links a{text-decoration:none; color:var(--blue-mist); font-weight:600; font-size:13.5px; border-bottom:1px solid rgba(227,244,248,0.3); padding-bottom:2px;}
+.footer-links a:hover{border-color:var(--blue-mist);}
+.footer-bottom{margin-top:36px; padding-top:20px; border-top:1px solid rgba(227,244,248,0.18); font-size:12px; color:var(--blue-pale); display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;}
+
+/* ============================================================
+   FILTER / TAB PILLS
+   ============================================================ */
+.filter-bar{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:36px;}
+.filter-pill{
+  font-family:var(--mono); font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:.06em;
+  padding:10px 20px; border-radius:30px; border:1px solid var(--line);
+  background:var(--paper-card); color:var(--ink-soft); cursor:pointer; transition:all .2s ease;
+}
+.filter-pill:hover{border-color:var(--blue-teal);}
+.filter-pill.active{background:var(--blue); color:var(--paper-card); border-color:var(--blue);}
+
+/* ============================================================
+   CONTENT CARDS — ribbon (horizontal scroll) + grid variants
+   ============================================================ */
+.content-ribbon{
+  display:flex; gap:18px; overflow-x:auto; padding:6px 6px 14px; scroll-snap-type:x proximity; scrollbar-width:none;
+}
+.content-ribbon::-webkit-scrollbar{display:none;}
+.content-ribbon .content-card{flex:none; width:280px; scroll-snap-align:start;}
+.content-grid{
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:22px;
+}
+.content-card{
+  text-decoration:none; color:inherit;
+  background:var(--paper-card); border:1px solid var(--line); border-radius:14px; overflow:hidden;
+  box-shadow:var(--shadow); transition:transform .2s ease;
+  display:block; cursor:pointer;
+}
+.content-card:hover{transform:translateY(-3px);}
+.content-thumb{
+  aspect-ratio:16/9; width:100%; position:relative;
+  background:linear-gradient(135deg, var(--blue-sky), var(--blue-navy));
+  display:flex; align-items:center; justify-content:center;
+}
+.content-thumb .play{
+  width:46px; height:46px; border-radius:50%; background:rgba(255,255,255,0.9);
+  display:flex; align-items:center; justify-content:center;
+}
+.content-thumb .play svg{width:16px; height:16px; margin-left:2px;}
+.content-tag{
+  position:absolute; top:10px; left:10px; font-family:var(--mono); font-size:10.5px; text-transform:uppercase;
+  letter-spacing:.06em; background:rgba(36,56,36,0.85); color:var(--paper-card); padding:3px 9px; border-radius:12px;
+}
+.content-body{padding:16px 16px 18px;}
+.content-title{font-family:var(--serif); font-size:16px; color:var(--ink); font-weight:500; line-height:1.35; margin-bottom:8px;}
+.content-meta{font-family:var(--mono); font-size:11.5px; color:var(--ink-faint); display:flex; gap:10px;}
+
+/* ============================================================
+   PAGINATION
+   ============================================================ */
+.pagination{display:flex; gap:8px; justify-content:center; margin-top:40px; flex-wrap:wrap;}
+.page-btn{
+  width:38px; height:38px; border-radius:50%; border:1px solid var(--line); background:var(--paper-card);
+  color:var(--ink-soft); font-family:var(--mono); font-size:13px; cursor:pointer; transition:all .2s ease;
+}
+.page-btn:hover{border-color:var(--blue-teal);}
+.page-btn.active{background:var(--blue); color:var(--paper-card); border-color:var(--blue);}
+
+/* ============================================================
+   COMING SOON STUB PAGES
+   ============================================================ */
+.stub{padding:140px 0 160px; text-align:center;}
+.stub .eyebrow{justify-content:center; display:flex;}
+.stub h1{font-size:clamp(32px,5vw,48px);}
+.stub p{max-width:520px; margin:0 auto 28px; font-size:16px;}
+
+/* ============================================================
+   RESPONSIVE (shared)
+   ============================================================ */
+@media (max-width: 780px){
+  .nav-links{
+    display:none; position:absolute; top:100%; left:0; right:0;
+    flex-direction:column; background:var(--paper); border-bottom:1px solid var(--line);
+    padding:10px 20px 18px; gap:4px; box-shadow:var(--shadow);
+  }
+  .nav-links.is-open{display:flex;}
+  .nav-links a{padding:12px 14px; border-radius:10px;}
+  .nav-toggle{display:flex;}
+  footer .wrap{flex-direction:column; align-items:flex-start;}
+}
+@media (max-width: 560px){
+  section{padding:60px 0;}
+  .wrap{padding:0 20px;}
+}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+}
