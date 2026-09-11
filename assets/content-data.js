@@ -34,19 +34,17 @@ function makeItem(o) {
 }
 
 const CONTENT_ITEMS = [
-  makeItem({
-    id: "carbon-pricing-economies",
-    title: "Why carbon pricing works differently in every economy",
-    tags: ["Climate Policy", "Public Finance"],
-    views: 4200,
-    date: "2026-07-18",
-    issue:
-      "Many governments adopt carbon taxes or cap-and-trade schemes expecting a uniform effect, but the same price signal lands very differently depending on how energy-intensive an economy is and who actually pays it.",
-    howOthersDoIt:
-      "Sweden's carbon tax, in place since 1991 and now over $130/tonne, works because it was phased in alongside cuts to income tax and heavy investment in district heating alternatives, so households had a substitute before the price bit.",
-    solution:
-      "Pair any carbon price with a visible, near-term substitute for the taxed behavior — subsidized transit, heating alternatives, or a direct rebate — introduced before or alongside the price increase, not years after.",
-  }),
+ makeItem({
+  id: "carbon-pricing-economies",
+  title: "Introduction",
+  youtubeVideoId: "f1O5nDe36EA",
+  tags: ["Climate Policy", "Public Finance"],
+  views: 4200,
+  date: "2026-07-18",
+  issue: "Many governments adopt carbon taxes or cap-and-trade schemes expecting a uniform...",
+  howOthersDoIt: "Sweden's carbon tax, in place since 1991 and now over $130/tonne, works becaus...",
+  solution: "Pair any carbon price with a visible, near-term substitute for the taxed behav...",
+}),
   makeItem({
     id: "fuel-subsidy-trap",
     title: "The subsidy trap: how fuel subsidies quietly bankrupt budgets",
