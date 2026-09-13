@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Chronocept Revolutions</title>
+<meta name="description" id="metaDescription" content="Sustainability, economics, and finance policy explained country by country, with the full cited research behind every video.">
+<meta property="og:type" content="video.other">
+<meta property="og:site_name" content="Chronocept Revolutions">
+<meta property="og:title" id="ogTitle" content="Chronocept Revolutions">
+<meta property="og:description" id="ogDescription" content="Sustainability, economics, and finance policy explained country by country, with the full cited research behind every video.">
+<meta property="og:image" content="https://chronoceptrevolutions.com/assets/img/logo.png">
+<meta name="twitter:card" content="summary">
 <link rel="icon" href="assets/img/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -179,6 +186,11 @@
     document.getElementById("notFoundSection").style.display = "block";
   } else {
     document.title = item.title + ": Chronocept Revolutions";
+    if (item.issue) {
+      document.getElementById("metaDescription").setAttribute("content", item.issue);
+      document.getElementById("ogDescription").setAttribute("content", item.issue);
+    }
+    document.getElementById("ogTitle").setAttribute("content", item.title + ": Chronocept Revolutions");
     document.getElementById("detailSection").style.display = "block";
     document.getElementById("relatedSection").style.display = "block";
 
