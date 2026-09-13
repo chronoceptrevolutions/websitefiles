@@ -107,6 +107,10 @@
     border-radius:8px; padding:16px 20px; margin:0 0 24px;
   }
   .research-article .case-callout p{margin:8px 0 0;}
+  .research-article .research-signoff{
+    font-family:var(--serif); font-style:italic; color:var(--ink-soft);
+    margin-top:8px;
+  }
 </style>
 </head>
 <body data-page="content.html">
@@ -122,21 +126,21 @@
     <div class="detail-tag-row" id="detailTags"></div>
     <div id="detailContributor"></div>
 
-    <div class="blog-section">
+    <div class="blog-section" id="issueSection">
       <span class="blog-label">The Issue</span>
       <p id="detailIssue"></p>
     </div>
-    <div class="blog-section">
+    <div class="blog-section" id="howSection">
       <span class="blog-label">How Others Do It</span>
       <p id="detailHow"></p>
     </div>
-    <div class="blog-section">
+    <div class="blog-section" id="solutionSection">
       <span class="blog-label">The Solution</span>
       <p id="detailSolution"></p>
     </div>
 
     <div class="blog-section" id="researchSection" style="display:none;">
-      <span class="blog-label">Full Research</span>
+      <span class="blog-label" id="researchLabel">Full Research</span>
       <div class="research-article" id="researchMount"></div>
     </div>
   </div>
@@ -200,9 +204,21 @@
     document.getElementById("detailMeta").innerHTML =
       `<span>${formatDate(item.publishedAt)}</span><span>&middot;</span><span>${formatViews(item.views)}</span>`;
     document.getElementById("detailTags").innerHTML = item.tags.map((t) => `<span class="detail-tag">${t}</span>`).join("");
-    document.getElementById("detailIssue").textContent = item.issue;
-    document.getElementById("detailHow").textContent = item.howOthersDoIt;
-    document.getElementById("detailSolution").textContent = item.solution;
+    if (item.issue) {
+      document.getElementById("detailIssue").textContent = item.issue;
+    } else {
+      document.getElementById("issueSection").style.display = "none";
+    }
+    if (item.howOthersDoIt) {
+      document.getElementById("detailHow").textContent = item.howOthersDoIt;
+    } else {
+      document.getElementById("howSection").style.display = "none";
+    }
+    if (item.solution) {
+      document.getElementById("detailSolution").textContent = item.solution;
+    } else {
+      document.getElementById("solutionSection").style.display = "none";
+    }
 
     if (item.contributor) {
       document.getElementById("detailContributor").innerHTML = `
@@ -216,6 +232,7 @@
     }
 
     if (item.researchFile) {
+      document.getElementById("researchLabel").textContent = item.researchLabel;
       fetch(item.researchFile)
         .then((res) => (res.ok ? res.text() : Promise.reject()))
         .then((html) => {
