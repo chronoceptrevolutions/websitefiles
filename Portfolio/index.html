@@ -109,23 +109,35 @@ section{padding:88px 0; position:relative;}
   backdrop-filter:blur(8px);
   border-bottom:1px solid var(--line);
 }
+.navbar{overflow:visible;}
 .navbar .wrap{
   display:flex; align-items:center; justify-content:space-between;
   padding-top:16px; padding-bottom:16px; gap:14px;
+  overflow:visible; min-height:44px;
 }
 .nav-mark{
   font-family:var(--serif); font-weight:700; color:var(--green);
-  font-size:18px; white-space:nowrap; text-decoration:none; flex:none;
+  font-size:18px; white-space:nowrap; flex:none; line-height:1;
 }
+.nav-home-link{
+  display:flex; align-items:center; gap:8px;
+  font-family:var(--sans); font-weight:600; color:var(--ink-soft);
+  font-size:13px; white-space:nowrap; text-decoration:none; line-height:1;
+  padding:7px 14px 7px 8px; border-radius:999px; border:1px solid var(--line);
+  background:var(--paper-card); transition:all .2s ease; flex:none;
+}
+.nav-home-link:hover{border-color:var(--green-teal); color:var(--green-deep);}
+.nav-home-link img{height:22px; width:22px; object-fit:contain; border-radius:50%; flex:none;}
 .nav-links{
-  display:flex; gap:1px; list-style:none; margin:0; padding:0;
-  overflow-x:auto; scrollbar-width:none;
+  display:flex; align-items:center; gap:1px; list-style:none; margin:0; padding:0;
+  overflow-x:auto; overflow-y:visible; scrollbar-width:none; height:auto;
 }
 .nav-links::-webkit-scrollbar{display:none;}
 .nav-links a{
-  text-decoration:none; font-size:12px; font-weight:600;
+  display:inline-flex; align-items:center;
+  text-decoration:none; font-size:12px; font-weight:600; line-height:1;
   color:var(--ink-soft); white-space:nowrap;
-  padding:7px 10px; border-radius:999px; transition:all .2s ease;
+  padding:9px 10px; border-radius:999px; transition:all .2s ease;
 }
 .nav-links a:hover, .nav-links a.active{background:var(--green); color:var(--paper-card);}
 
@@ -448,9 +460,12 @@ footer .wrap{display:flex; justify-content:space-between; align-items:flex-end; 
      ============================================================ -->
 <nav class="navbar">
   <div class="wrap">
-    <a href="#hero" class="nav-mark">AK</a>
+    <span class="nav-mark">AK</span>
+    <a href="../index.html" class="nav-home-link" title="Back to Chronocept Revolutions">
+      <img src="../assets/img/logo.png" alt="">
+      Chronocept Revolutions
+    </a>
     <ul class="nav-links" id="navLinks">
-      <li><a href="../index.html" title="Back to Chronocept Revolutions">Chronocept Revolutions</a></li>
       <li><a href="#hero">Profile Summary</a></li>
       <li><a href="#skills">Professional Skills</a></li>
       <li><a href="#countries">Countries of Experience</a></li>
