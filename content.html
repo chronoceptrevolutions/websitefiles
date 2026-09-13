@@ -3,16 +3,45 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Content — Chronocept Revolutions</title>
+<title>Content: Chronocept Revolutions</title>
 <meta name="description" content="Every Chronocept Revolutions video and companion write-up, newest or most viewed.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Chronocept Revolutions">
+<meta property="og:title" content="Content Library: Chronocept Revolutions">
+<meta property="og:description" content="Every Chronocept Revolutions video and companion research write-up, newest or most viewed, filterable by country.">
+<meta property="og:image" content="https://chronoceptrevolutions.com/assets/img/logo.png">
+<meta property="og:url" content="https://chronoceptrevolutions.com/content.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Content Library: Chronocept Revolutions">
+<meta name="twitter:description" content="Every Chronocept Revolutions video and companion research write-up, newest or most viewed.">
 <link rel="icon" href="assets/img/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3"></script>
 <style>
   .content-header{padding-bottom:8px;}
   .content-header p{max-width:600px;}
+
+  .map-layout{display:grid; grid-template-columns:1fr; gap:8px; position:relative;}
+  #map-svg{width:100%; height:auto; background:var(--paper-card); border-radius:16px; border:1px solid var(--line);}
+  #map-svg .land{fill:var(--map-land); stroke:var(--paper-card); stroke-width:0.6; cursor:pointer; transition:fill .12s ease;}
+  #map-svg .land.has-content{fill:var(--blue-navy);}
+  #map-svg .land:hover{fill:var(--map-land-hover);}
+  #map-svg .land.has-content:hover{fill:var(--blue);}
+  .map-legend{display:flex; flex-wrap:wrap; gap:22px; margin-top:16px; font-size:13px; color:var(--ink-soft);}
+  .map-legend span{display:inline-flex; align-items:center; gap:8px;}
+  .map-legend i{width:12px; height:12px; border-radius:3px; display:inline-block;}
+  .map-tooltip{
+    position:fixed; z-index:50; pointer-events:none; transform:translate(-50%,-130%);
+    background:var(--blue-deep); color:var(--paper-card); font-family:var(--mono); font-size:12.5px;
+    padding:6px 12px; border-radius:8px; white-space:nowrap; opacity:0; transition:opacity .1s ease;
+    box-shadow:var(--shadow);
+  }
+  .map-tooltip.is-visible{opacity:1;}
+  .current-filter-note{font-size:13px; color:var(--ink-soft); margin:0 0 18px;}
 </style>
 </head>
 <body data-page="content.html">
@@ -23,15 +52,25 @@
     <div class="section-head tight">
       <span class="eyebrow">Every video, one place</span>
       <h1>Content Library</h1>
-      <p>Every Issue / How Others Do It / Solution write-up we've published, paired with its video. Browse newest
-        first or sort by what's resonating most.</p>
+      <p>Find every video in one place. Browse by newest or most viewed, or use the map to explore by country.</p>
     </div>
-    <div class="filter-bar" id="libraryFilterBar">
+
+    <div class="map-layout">
+      <svg id="map-svg" viewBox="0 0 960 500"></svg>
+      <div class="map-legend">
+        <span><i style="background:var(--blue-navy)"></i>Has published content</span>
+        <span><i style="background:var(--map-land)"></i>No content yet</span>
+      </div>
+    </div>
+
+    <div class="filter-bar" id="libraryFilterBar" style="margin-top:28px;">
       <button class="filter-pill active" data-filter="newest">Newest</button>
       <button class="filter-pill" data-filter="most-viewed">Most Viewed</button>
     </div>
+    <p class="current-filter-note" id="currentFilterNote" style="display:none;"></p>
   </div>
 </section>
+<div class="map-tooltip" id="mapTooltip"></div>
 
 <section style="padding-top:0;">
   <div class="wrap">
@@ -50,12 +89,30 @@
   const PER_PAGE = 12;
   let currentPage = 1;
   let currentSort = "newest";
+  let currentCountry = null; // { iso, name } or null
 
   function currentItems() {
-    return currentSort === "most-viewed" ? sortByViews(CONTENT_ITEMS) : sortByNewest(CONTENT_ITEMS);
+    let items = currentCountry
+      ? CONTENT_ITEMS.filter((c) => c.country && c.country.iso === currentCountry.iso)
+      : CONTENT_ITEMS;
+    return currentSort === "most-viewed" ? sortByViews(items) : sortByNewest(items);
   }
 
   function renderLibrary() {
+    const note = document.getElementById("currentFilterNote");
+    if (currentCountry) {
+      note.style.display = "block";
+      note.innerHTML = `Showing content for <strong>${currentCountry.name}</strong> &middot; <a href="#" id="clearCountryFilter">clear</a>`;
+      document.getElementById("clearCountryFilter").addEventListener("click", (e) => {
+        e.preventDefault();
+        currentCountry = null;
+        currentPage = 1;
+        renderLibrary();
+      });
+    } else {
+      note.style.display = "none";
+    }
+
     const items = currentItems();
     const start = (currentPage - 1) * PER_PAGE;
     renderCardGrid(document.getElementById("libraryGrid"), items.slice(start, start + PER_PAGE));
@@ -76,6 +133,51 @@
     renderLibrary();
   });
 
+  function wireWorldMap() {
+    const svg = d3.select("#map-svg");
+    const tooltip = document.getElementById("mapTooltip");
+    if (svg.empty() || !tooltip) return;
+    const countriesWithContent = new Set(CONTENT_ITEMS.filter((c) => c.country).map((c) => c.country.iso));
+    const projection = d3.geoNaturalEarth1().scale(155).translate([480, 250]);
+    const path = d3.geoPath(projection);
+
+    fetch("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json")
+      .then((res) => res.json())
+      .then((world) => {
+        const countries = topojson.feature(world, world.objects.countries).features;
+        svg
+          .selectAll("path")
+          .data(countries)
+          .join("path")
+          .attr("d", path)
+          .attr("class", (d) => "land" + (countriesWithContent.has(+d.id) ? " has-content" : ""))
+          .style("outline", "none")
+          .on("mousemove", (event, d) => {
+            tooltip.textContent = d.properties.name;
+            tooltip.style.left = event.clientX + "px";
+            tooltip.style.top = event.clientY + "px";
+            tooltip.classList.add("is-visible");
+          })
+          .on("mouseleave", () => tooltip.classList.remove("is-visible"))
+          .on("click", (event, d) => {
+            document.querySelectorAll("#libraryFilterBar .filter-pill").forEach((b) => b.classList.remove("active"));
+            currentCountry = { iso: +d.id, name: d.properties.name };
+            currentSort = "newest";
+            currentPage = 1;
+            renderLibrary();
+          });
+      })
+      .catch(() => {
+        document
+          .querySelector(".map-layout")
+          .insertAdjacentHTML(
+            "beforeend",
+            '<p style="font-size:13px;color:var(--ink-faint);margin-top:10px;">Map requires an internet connection to load.</p>'
+          );
+      });
+  }
+
+  wireWorldMap();
   syncYouTubeStats(CONTENT_ITEMS).then(renderLibrary);
   renderLibrary();
 </script>
