@@ -13,6 +13,7 @@ const COUNTRY_META = {
   76: { name: "Brazil" },
   276: { name: "Germany" },
   404: { name: "Kenya" },
+  586: { name: "Pakistan" },
 };
 
 function makeItem(o) {
@@ -28,6 +29,10 @@ function makeItem(o) {
     howOthersDoIt: o.howOthersDoIt,
     solution: o.solution,
     contributor: o.contributor || null,
+    /* Optional: path to an HTML file with the full research write-up
+       (converted from the Word doc), shown below the video on the
+       content-detail page. e.g. "research/carbon-pricing-economies.html" */
+    researchFile: o.researchFile || null,
   };
 }
 
@@ -45,7 +50,24 @@ function makeItem(o) {
      solution: "...",
    }),
 */
-const CONTENT_ITEMS = [];
+const CONTENT_ITEMS = [
+  makeItem({
+    id: "pakistan-debt-trap",
+    title: "Pakistan Is Broke AGAIN. Here's the Real Reason",
+    youtubeVideoId: "QxFlRJKc1gM",
+    iso: 586,
+    tags: ["Sovereign Debt", "IMF", "Economic Policy"],
+    views: 0,
+    date: "2026-08-20",
+    issue:
+      "Pakistan has asked the IMF for a bailout 24 times in 76 years, trapped by expensive Chinese debt, a decades-long conflict with India that drains money and trade, and militant violence spilling over from Afghanistan.",
+    howOthersDoIt:
+      "Indonesia and India both hit rock bottom and recovered. Indonesia cleaned up its banks, paid off its IMF debt early, and built a downstream nickel industry. India deregulated fast and built a software export industry from nearly zero.",
+    solution:
+      "Pakistan needs to broaden its tax base, normalize trade with India, diversify away from expensive Chinese debt, privatize loss-making state enterprises, and build an export industry that does not depend on aid.",
+    researchFile: "research/pakistan-debt-trap.html",
+  }),
+];
 
 /* ---------- Query helpers ---------- */
 function getContentById(id) {
