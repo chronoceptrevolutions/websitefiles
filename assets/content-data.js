@@ -33,6 +33,9 @@ function makeItem(o) {
        (converted from the Word doc), shown below the video on the
        content-detail page. e.g. "research/carbon-pricing-economies.html" */
     researchFile: o.researchFile || null,
+    /* Optional: overrides the "Full Research" label above that section,
+       e.g. "In Athreya's Words" for a non-report video like the intro. */
+    researchLabel: o.researchLabel || "Full Research",
   };
 }
 
@@ -66,6 +69,32 @@ const CONTENT_ITEMS = [
     solution:
       "Pakistan needs to broaden its tax base, normalize trade with India, diversify away from expensive Chinese debt, privatize loss-making state enterprises, and build an export industry that does not depend on aid.",
     researchFile: "research/pakistan-debt-trap.html",
+  }),
+  makeItem({
+    id: "vip-culture-india",
+    title: "VIP Culture in India: When Politicians Are Reminded Who's the Boss",
+    youtubeVideoId: "t-wlelvAIYY",
+    iso: 356,
+    tags: ["Governance", "Civic Rights", "Public Policy"],
+    views: 0,
+    date: "2026-09-05",
+    issue:
+      "VIP convoys routinely block Indian roads, including for ambulances, even though the law only allows traffic to be stopped for the President, Vice President, and Prime Minister. A viral confrontation in Mumbai reignited the debate.",
+    howOthersDoIt:
+      "Australia held its prime minister publicly accountable for abandoning duty during a crisis, while Denmark, Sweden, and New Zealand treat holding office as a form of service rather than a privilege, with ministers cycling to work or riding public transport.",
+    solution:
+      "Stop treating politicians like celebrities, use RTI rights to demand transparency, hold media coverage accountable for its framing, ask real questions at public forums, and vote on performance instead of identity.",
+    researchFile: "research/vip-culture-india.html",
+  }),
+  makeItem({
+    id: "introduction",
+    title: "Introduction to Chronocept Revolutions",
+    youtubeVideoId: "f105nDe36EA",
+    tags: ["About the Channel"],
+    views: 0,
+    date: "2026-08-01",
+    researchFile: "research/introduction.html",
+    researchLabel: "In Athreya's Words",
   }),
 ];
 
