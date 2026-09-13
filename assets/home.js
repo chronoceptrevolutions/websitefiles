@@ -95,6 +95,17 @@ function wireSubscribeForm() {
   if (!form) return;
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
+
+    /* honeypot check: real visitors never see or fill this field, so if
+       it has a value, this is almost certainly a bot. Pretend it worked
+       so the bot doesn't learn to try again differently. */
+    const honeypot = document.getElementById("subWebsite");
+    if (honeypot && honeypot.value.trim() !== "") {
+      success.classList.add("is-visible");
+      form.reset();
+      return;
+    }
+
     const submitBtn = form.querySelector('button[type="submit"]');
     submitBtn.disabled = true;
     submitBtn.textContent = "Submitting...";
