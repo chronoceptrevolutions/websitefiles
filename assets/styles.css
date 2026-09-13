@@ -1,255 +1,327 @@
-/* ============================================================
-   CHRONOCEPT REVOLUTIONS: SHARED DESIGN SYSTEM
-   Layout/typography borrowed from the founder's portfolio site;
-   accent palette matches the portfolio's original green
-   (athreyakannan.netlify.app), swapped in from the earlier blue pass.
-   Variable names still say "blue" from that earlier iteration,
-   only the hex values changed, kept as-is to avoid touching every
-   usage site across the codebase.
-   ============================================================ */
-:root{
-  --paper:#EDE6D4;
-  --paper-card:#F7F2E5;
-  --paper-card-2:#F1EADB;
-  --ink:#38352C;
-  --ink-soft:#5C584C;
-  --ink-faint:#8B8676;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Submit a CR: Chronocept Revolutions</title>
+<meta name="description" content="Bring us an Issue, how another country handles it, and your proposed Solution. We'll turn it into a video and credit you as the contributor.">
+<link rel="icon" href="assets/img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+  .submit-hero{padding-bottom:48px;}
+  .narrow-section .wrap{max-width:680px;}
+  .what-is-cr p{font-size:15px; color:var(--ink-soft); line-height:1.7; margin:0;}
+  .what-is-cr strong{color:var(--ink);}
 
-  /* Accent scale, matches the portfolio's green exactly */
-  --blue:#3E5C43;         /* primary accent, headings, links, buttons */
-  --blue-deep:#243824;    /* darkest, footer bg, strong emphasis */
-  --blue-navy:#2E4A32;    /* dark-mid */
-  --blue-mid:#436B49;     /* medium */
-  --blue-teal:#3E6B5E;    /* teal-green midtone */
-  --blue-sky:#6C8F6C;     /* light sage, matches map "project" highlight */
-  --blue-pale:#A7C0A0;    /* pale */
-  --blue-mist:#DCE6D5;    /* very pale mist */
-
-  --map-land:#726D5D;
-  --map-land-hover:#5B5749;
-
-  --line: rgba(56,53,44,0.14);
-  --shadow: 0 10px 30px rgba(46,44,36,0.10);
-
-  --serif: 'Fraunces', Georgia, serif;
-  --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  --mono: 'IBM Plex Mono', monospace;
-
-  --maxw: 1120px;
-}
-
-*{box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{
-  margin:0;
-  background-color: var(--paper);
-  color: var(--ink-soft);
-  font-family: var(--sans);
-  font-size:16px;
-  line-height:1.65;
-  -webkit-font-smoothing:antialiased;
-}
-img{max-width:100%; display:block;}
-a{color:inherit;}
-button{font-family:inherit;}
-h1,h2,h3,h4{
-  font-family: var(--serif);
-  color: var(--blue-deep);
-  margin:0 0 0.4em 0;
-  font-weight:500;
-  letter-spacing:-0.01em;
-}
-.wrap{max-width:var(--maxw); margin:0 auto; padding:0 32px;}
-.eyebrow{
-  font-family: var(--mono);
-  text-transform:uppercase;
-  letter-spacing:0.14em;
-  font-size:12px;
-  color: var(--blue-teal);
-  margin-bottom:10px;
-  display:block;
-}
-section{padding:88px 0; position:relative;}
-.section-head{max-width:640px; margin-bottom:56px;}
-.section-head.tight{margin-bottom:30px;}
-.section-head.center{margin-left:auto; margin-right:auto; text-align:center;}
-.section-head h2{font-size:clamp(28px,3.4vw,40px);}
-.section-head p{color:var(--ink-soft); font-size:16px; margin:0;}
-
-.required-asterisk{color:#B3261E; margin-left:2px;}
-
-::selection{background:var(--blue-pale); color:var(--blue-deep);}
-:focus-visible{outline:2px solid var(--blue); outline-offset:3px;}
-
-/* torn paper divider between sections - signature motif from the portfolio */
-.torn{position:relative; height:26px; width:100%; overflow:hidden; margin-top:-1px; background:var(--paper);}
-.torn svg{position:absolute; top:0; left:0; width:100%; height:100%;}
-/* keep the gap around every torn divider identical everywhere, regardless of
-   any padding a section sets for itself elsewhere */
-.torn + section{padding-top:56px !important;}
-section:has(+ .torn){padding-bottom:56px !important;}
-
-/* ============================================================
-   NAV
-   ============================================================ */
-.navbar{
-  position:sticky; top:0; z-index:100;
-  background:rgba(237,230,212,0.94);
-  backdrop-filter:blur(8px);
-  border-bottom:1px solid var(--line);
-}
-.navbar .wrap{
-  display:flex; align-items:center; justify-content:space-between;
-  padding-top:14px; padding-bottom:14px; gap:20px;
-}
-.nav-mark{
-  display:flex; align-items:center; gap:10px;
-  font-family:var(--serif); font-weight:700; color:var(--blue-deep);
-  font-size:18px; white-space:nowrap; text-decoration:none; flex:none;
-}
-.nav-mark img{height:34px; width:34px; object-fit:contain;}
-.nav-links{
-  display:flex; gap:2px; list-style:none; margin:0; padding:0;
-  overflow-x:auto; scrollbar-width:none;
-}
-.nav-links::-webkit-scrollbar{display:none;}
-.nav-links a{
-  text-decoration:none; font-size:13px; font-weight:600;
-  color:var(--ink-soft); white-space:nowrap; display:inline-flex; align-items:center;
-  padding:9px 16px; border-radius:999px; transition:all .2s ease;
-}
-.nav-links a:hover, .nav-links a.active{background:var(--blue); color:var(--paper-card);}
-.nav-toggle{
-  display:none; flex:none; width:38px; height:38px; border-radius:10px;
-  background:transparent; border:1px solid var(--line); cursor:pointer;
-  align-items:center; justify-content:center;
-}
-.nav-toggle span, .nav-toggle span::before, .nav-toggle span::after{
-  content:""; display:block; width:18px; height:2px; background:var(--blue-deep);
-  position:relative; transition:transform .2s ease, opacity .2s ease;
-}
-.nav-toggle span::before{position:absolute; top:-6px;}
-.nav-toggle span::after{position:absolute; top:6px;}
-.nav-toggle.is-open span{background:transparent;}
-.nav-toggle.is-open span::before{transform:translateY(6px) rotate(45deg);}
-.nav-toggle.is-open span::after{transform:translateY(-6px) rotate(-45deg);}
-
-/* ============================================================
-   BUTTONS
-   ============================================================ */
-.btn{
-  display:inline-flex; align-items:center; justify-content:center; gap:8px;
-  font-weight:700; font-size:14px; padding:13px 26px; border-radius:999px;
-  text-decoration:none; cursor:pointer; border:none; transition:transform .15s ease, box-shadow .15s ease, background .2s ease;
-  font-family:var(--sans);
-}
-.btn:hover{transform:translateY(-1px);}
-.btn-primary{background:var(--blue); color:var(--paper-card);}
-.btn-primary:hover{background:var(--blue-navy); box-shadow:var(--shadow);}
-.btn-ghost{background:var(--paper-card); color:var(--blue-deep); border:1px solid var(--line);}
-.btn-ghost:hover{border-color:var(--blue-teal); box-shadow:var(--shadow);}
-.btn-outline-invert{background:transparent; color:var(--paper-card); border:1px solid rgba(227,244,248,0.4);}
-.btn-outline-invert:hover{background:rgba(227,244,248,0.12);}
-.btn:disabled{opacity:0.6; cursor:not-allowed; transform:none;}
-
-/* ============================================================
-   FOOTER
-   ============================================================ */
-footer{background:var(--blue-deep); color:var(--blue-mist); padding:56px 0 32px;}
-footer h2{color:var(--paper-card);}
-footer .wrap{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:24px;}
-.footer-brand{display:flex; align-items:center; gap:10px; font-family:var(--serif); font-size:17px; color:var(--paper-card); text-decoration:none;}
-.footer-brand img{height:30px; width:30px; object-fit:contain;}
-.footer-links{display:flex; gap:22px; flex-wrap:wrap;}
-.footer-links a{text-decoration:none; color:var(--blue-mist); font-weight:600; font-size:13.5px; border-bottom:1px solid rgba(227,244,248,0.3); padding-bottom:2px;}
-.footer-links a:hover{border-color:var(--blue-mist);}
-.footer-bottom{margin-top:36px; padding-top:20px; border-top:1px solid rgba(227,244,248,0.18); font-size:12px; color:var(--blue-pale); display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;}
-
-/* ============================================================
-   FILTER / TAB PILLS
-   ============================================================ */
-.filter-bar{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:36px;}
-.filter-pill{
-  font-family:var(--mono); font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:.06em;
-  padding:10px 20px; border-radius:999px; border:1px solid var(--line);
-  background:var(--paper-card); color:var(--ink-soft); cursor:pointer; transition:all .2s ease;
-}
-.filter-pill:hover{border-color:var(--blue-teal);}
-.filter-pill.active{background:var(--blue); color:var(--paper-card); border-color:var(--blue);}
-
-/* ============================================================
-   CONTENT CARDS: ribbon (horizontal scroll) + grid variants
-   ============================================================ */
-.content-ribbon{
-  display:flex; gap:18px; overflow-x:auto; padding:6px 6px 14px; scroll-snap-type:x proximity; scrollbar-width:none;
-}
-.content-ribbon::-webkit-scrollbar{display:none;}
-.content-ribbon .content-card{flex:none; width:280px; scroll-snap-align:start;}
-.content-grid{
-  display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:22px;
-}
-.content-card{
-  text-decoration:none; color:inherit;
-  background:var(--paper-card); border:1px solid var(--line); border-radius:14px; overflow:hidden;
-  box-shadow:var(--shadow); transition:transform .2s ease;
-  display:block; cursor:pointer;
-}
-.content-card:hover{transform:translateY(-3px);}
-.content-thumb{
-  aspect-ratio:16/9; width:100%; position:relative;
-  background:linear-gradient(135deg, var(--blue-sky), var(--blue-navy));
-  display:flex; align-items:center; justify-content:center;
-}
-.content-thumb .play{
-  width:46px; height:46px; border-radius:50%; background:rgba(255,255,255,0.9);
-  display:flex; align-items:center; justify-content:center;
-}
-.content-thumb .play svg{width:16px; height:16px; margin-left:2px;}
-.content-tag{
-  position:absolute; top:10px; left:10px; font-family:var(--mono); font-size:10.5px; text-transform:uppercase;
-  letter-spacing:.06em; background:rgba(36,56,36,0.85); color:var(--paper-card); padding:3px 9px; border-radius:12px;
-}
-.content-body{padding:16px 16px 18px;}
-.content-title{font-family:var(--serif); font-size:16px; color:var(--ink); font-weight:500; line-height:1.35; margin-bottom:8px;}
-.content-meta{font-family:var(--mono); font-size:11.5px; color:var(--ink-faint); display:flex; gap:10px;}
-
-/* ============================================================
-   PAGINATION
-   ============================================================ */
-.pagination{display:flex; gap:8px; justify-content:center; margin-top:40px; flex-wrap:wrap;}
-.page-btn{
-  width:38px; height:38px; border-radius:50%; border:1px solid var(--line); background:var(--paper-card);
-  color:var(--ink-soft); font-family:var(--mono); font-size:13px; cursor:pointer; transition:all .2s ease;
-}
-.page-btn:hover{border-color:var(--blue-teal);}
-.page-btn.active{background:var(--blue); color:var(--paper-card); border-color:var(--blue);}
-
-/* ============================================================
-   COMING SOON STUB PAGES
-   ============================================================ */
-.stub{padding:140px 0 160px; text-align:center;}
-.stub .eyebrow{justify-content:center; display:flex;}
-.stub h1{font-size:clamp(32px,5vw,48px);}
-.stub p{max-width:520px; margin:0 auto 28px; font-size:16px;}
-
-/* ============================================================
-   RESPONSIVE (shared)
-   ============================================================ */
-@media (max-width: 780px){
-  .nav-links{
-    display:none; position:absolute; top:100%; left:0; right:0;
-    flex-direction:column; background:var(--paper); border-bottom:1px solid var(--line);
-    padding:10px 20px 18px; gap:4px; box-shadow:var(--shadow);
+  .template-card{
+    display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap;
+    background:var(--paper-card); border:1px solid var(--line); border-radius:16px;
+    padding:28px 32px; box-shadow:var(--shadow);
   }
-  .nav-links.is-open{display:flex;}
-  .nav-links a{padding:12px 14px; border-radius:10px;}
-  .nav-toggle{display:flex;}
-  footer .wrap{flex-direction:column; align-items:flex-start;}
-}
-@media (max-width: 560px){
-  section{padding:60px 0;}
-  .wrap{padding:0 20px;}
-}
-@media (prefers-reduced-motion: reduce){
-  html{scroll-behavior:auto;}
-}
+  .template-card h3{font-size:17px; margin-bottom:6px;}
+  .template-card p{font-size:14px; margin:0; color:var(--ink-soft);}
+
+  .expect-text{font-size:15px; color:var(--ink-soft); line-height:1.7;}
+  .expect-text h3{font-size:16px; color:var(--ink); margin:0 0 8px;}
+  .expect-text + .expect-text{margin-top:24px;}
+
+  .cr-expect-flow{display:flex; align-items:stretch; margin:28px 0;}
+  .cr-expect-steps{display:flex; flex-direction:column; gap:0; flex:3;}
+  .cr-expect-step{
+    background:var(--paper-card); border:1px solid var(--line); border-radius:10px;
+    padding:12px 14px; font-size:13.5px; color:var(--ink-soft); line-height:1.5;
+  }
+  .cr-expect-step strong{display:block; color:var(--ink); font-family:var(--serif); font-size:14px; margin-bottom:2px;}
+  .cr-expect-step-arrow{text-align:center; font-size:16px; line-height:1; color:var(--blue-teal); padding:3px 0;}
+  .cr-expect-bracket{
+    width:22px; flex:none; margin:0 30px 0 18px; position:relative;
+    border-top:3px solid var(--blue-teal); border-bottom:3px solid var(--blue-teal); border-right:3px solid var(--blue-teal);
+    border-radius:0 10px 10px 0;
+  }
+  .cr-expect-bracket::after{
+    content:"\2192"; position:absolute; left:100%; top:50%; transform:translateY(-50%); margin-left:8px;
+    color:var(--blue-teal); font-size:20px; font-weight:700;
+  }
+  .cr-expect-backup{
+    flex:1; background:var(--blue-mist); border:1px solid var(--blue-pale); border-radius:12px;
+    padding:16px 14px; display:flex; flex-direction:column; justify-content:center; text-align:center;
+  }
+  .cr-expect-backup strong{font-family:var(--serif); font-size:15px; color:var(--blue-deep); display:block; margin-bottom:6px;}
+  .cr-expect-backup p{font-size:12.5px; color:var(--blue-deep); margin:0; line-height:1.55;}
+
+  .submit-form-card{
+    max-width:720px; margin:0 auto; background:var(--paper-card); border:1px solid var(--line);
+    border-radius:16px; padding:36px 40px; box-shadow:var(--shadow);
+  }
+  .form-grid-2{display:grid; grid-template-columns:1fr 1fr; gap:18px;}
+  .form-row{margin-bottom:18px;}
+  .form-row label{display:flex; flex-wrap:wrap; align-items:center; gap:6px; font-size:12.5px; font-weight:600; color:var(--blue-deep); margin-bottom:6px; text-transform:uppercase; letter-spacing:.04em; font-family:var(--mono);}
+  .form-row .hint{flex-basis:100%; font-weight:400; text-transform:none; letter-spacing:0; color:var(--ink-faint); font-family:var(--sans); margin-top:2px; font-size:12.5px;}
+  .form-row input[type=email], .form-row input[type=text]{
+    width:100%; padding:12px 14px; border-radius:8px; border:1px solid var(--line);
+    background:var(--paper); font-family:var(--sans); font-size:14.5px; color:var(--ink);
+  }
+  .form-row input[type=file]{width:100%; font-size:13.5px; font-family:var(--sans); color:var(--ink-soft);}
+  .form-row input:focus{outline:2px solid var(--blue); outline-offset:1px;}
+  .form-consent{display:flex; align-items:flex-start; gap:10px; font-size:12.5px; color:var(--ink-soft); margin-bottom:14px;}
+  .form-consent input{margin-top:3px;}
+  .form-success{
+    display:none; margin-top:16px; padding:14px 16px; border-radius:8px;
+    background:var(--blue-mist); color:var(--blue-deep); font-size:13.5px; border:1px solid var(--blue-pale);
+  }
+  .form-success.is-visible{display:block;}
+
+  .info-tip{position:relative; display:inline-flex; cursor:default;}
+  .info-tip .info-icon{
+    width:15px; height:15px; border-radius:50%; background:var(--ink-faint); color:var(--paper-card);
+    font-size:10px; font-family:var(--sans); display:flex; align-items:center; justify-content:center; font-weight:700;
+  }
+  .info-tip .info-bubble{
+    display:none; position:absolute; bottom:22px; left:50%; transform:translateX(-50%); width:240px;
+    background:var(--blue-deep); color:var(--paper-card); font-size:12px; font-weight:400; text-transform:none;
+    font-family:var(--sans); letter-spacing:0; padding:10px 12px; border-radius:8px; line-height:1.5; z-index:10;
+  }
+  .info-tip:hover .info-bubble{display:block;}
+
+  @media (max-width:780px){
+    .form-grid-2{grid-template-columns:1fr;}
+    .template-card{flex-direction:column; align-items:flex-start;}
+    .submit-form-card{padding:26px 22px;}
+    .cr-expect-flow{flex-direction:column;}
+    .cr-expect-bracket{display:none;}
+    .cr-expect-backup{margin-top:14px;}
+  }
+</style>
+</head>
+<body data-page="submit-a-cr.html">
+<div id="siteNav"></div>
+
+<!-- ============================================================
+     WHAT IS A CR?
+     ============================================================ -->
+<section class="narrow-section">
+  <div class="wrap">
+    <span class="eyebrow">Before you start</span>
+    <h1>What is a CR?</h1>
+    <div class="what-is-cr">
+      <p>A Chronocept Revolution is an idea: the ability to spot an issue, identify it clearly, find a solution
+        for it (either an existing one or an innovative one), and propose how that solution can be applied in
+        the right context to actually fix it.</p>
+    </div>
+  </div>
+</section>
+
+<div class="torn"><svg preserveAspectRatio="none" viewBox="0 0 1200 26"><polygon fill="#F1EADB" points="0,26 0,10 20,16 45,6 70,14 95,4 120,12 145,2 170,10 195,3 220,13 245,5 270,15 295,4 320,11 345,2 370,14 395,6 420,12 445,3 470,15 495,5 520,10 545,2 570,13 595,4 620,11 645,3 670,15 695,6 720,12 745,2 770,14 795,5 820,10 845,3 870,13 895,4 920,11 945,2 970,15 995,6 1020,12 1045,3 1070,14 1095,5 1120,10 1145,3 1170,13 1200,6 1200,26"></polygon></svg></div>
+
+<!-- ============================================================
+     TEMPLATE DOWNLOAD
+     ============================================================ -->
+<section class="narrow-section" style="background:var(--paper-card-2);">
+  <div class="wrap">
+    <div class="template-card">
+      <div>
+        <h3>Download the CR blog template</h3>
+        <p>Use this structure for your draft. More detailed instructions can be found within the template.</p>
+      </div>
+      <a href="assets/downloads/CR-Submission-Template.md" download class="btn btn-primary">Download Template</a>
+    </div>
+  </div>
+</section>
+
+<div class="torn" style="background:var(--paper-card-2);"><svg preserveAspectRatio="none" viewBox="0 0 1200 26"><polygon fill="#EDE6D4" points="0,26 0,10 20,16 45,6 70,14 95,4 120,12 145,2 170,10 195,3 220,13 245,5 270,15 295,4 320,11 345,2 370,14 395,6 420,12 445,3 470,15 495,5 520,10 545,2 570,13 595,4 620,11 645,3 670,15 695,6 720,12 745,2 770,14 795,5 820,10 845,3 870,13 895,4 920,11 945,2 970,15 995,6 1020,12 1045,3 1070,14 1095,5 1120,10 1145,3 1170,13 1200,6 1200,26"></polygon></svg></div>
+
+<!-- ============================================================
+     SUBMIT A CR
+     ============================================================ -->
+<section class="submit-hero narrow-section">
+  <div class="wrap">
+    <span class="eyebrow">Bring us an idea</span>
+    <h2>Submit a CR</h2>
+    <p style="font-size:16.5px; color:var(--ink);">
+      Every Chronocept Revolution follows the same structure: an <strong>Issue</strong> a country is facing,
+      <strong>how another country</strong> handles it, and a concrete <strong>Solution</strong>. If you've got
+      one worth telling, walk through the steps below. If it's a fit, we'll turn it into a video and credit
+      you as the contributor.
+    </p>
+  </div>
+</section>
+
+<div class="torn"><svg preserveAspectRatio="none" viewBox="0 0 1200 26"><polygon fill="#F1EADB" points="0,26 0,10 20,16 45,6 70,14 95,4 120,12 145,2 170,10 195,3 220,13 245,5 270,15 295,4 320,11 345,2 370,14 395,6 420,12 445,3 470,15 495,5 520,10 545,2 570,13 595,4 620,11 645,3 670,15 695,6 720,12 745,2 770,14 795,5 820,10 845,3 870,13 895,4 920,11 945,2 970,15 995,6 1020,12 1045,3 1070,14 1095,5 1120,10 1145,3 1170,13 1200,6 1200,26"></polygon></svg></div>
+
+<!-- ============================================================
+     WHAT TO EXPECT (merged with the old "How it works" section)
+     ============================================================ -->
+<section class="narrow-section" style="background:var(--paper-card-2);">
+  <div class="wrap">
+    <div class="section-head tight">
+      <span class="eyebrow">Read before you submit</span>
+      <h2>What to expect</h2>
+    </div>
+    <div class="expect-text">
+      <h3>What's expected of a submission</h3>
+      <p>Every CR follows the same structure: the Issue a country is facing, how another country has handled
+        it, and the Solution, a structured recommendation backed by evidence and facts. Keep it non-political
+        in tone: evaluate what a country is doing, not who's in charge. Cite every claim; we will check them.</p>
+    </div>
+
+    <div class="cr-expect-flow">
+      <div class="cr-expect-steps">
+        <div class="cr-expect-step"><strong>1. Identify the issue</strong>A real, verifiable situation a country is facing.</div>
+        <div class="cr-expect-step-arrow">&darr;</div>
+        <div class="cr-expect-step"><strong>2. How other countries have solved it</strong>A comparable approach that's actually worked elsewhere.</div>
+        <div class="cr-expect-step-arrow">&darr;</div>
+        <div class="cr-expect-step"><strong>3. A structured, implementable solution</strong>A concrete recommendation, not just an observation.</div>
+      </div>
+      <div class="cr-expect-bracket"></div>
+      <div class="cr-expect-backup">
+        <strong>Back it up</strong>
+        <p>Facts, empirical data, and citations wherever possible, for all three steps. We will check this.</p>
+      </div>
+    </div>
+
+    <div class="expect-text">
+      <h3>How it's reviewed</h3>
+      <p>Every submission is checked against its sources, then edited by the CR team for structure, clarity,
+        and length. You'll receive the edited version back for your own reference before anything is produced.</p>
+    </div>
+    <div class="expect-text">
+      <h3>Rights &amp; ownership</h3>
+      <p>Once you sign the contributor agreement, your submission becomes Chronocept Revolutions' property to
+        produce, edit, and publish as a video and companion write-up, with credit and your photo attributed to
+        you (unless you've chosen to stay anonymous). No financial claim survives your acceptance of the
+        agreement.</p>
+    </div>
+  </div>
+</section>
+
+<div class="torn" style="background:var(--paper-card-2);"><svg preserveAspectRatio="none" viewBox="0 0 1200 26"><polygon fill="#EDE6D4" points="0,26 0,10 20,16 45,6 70,14 95,4 120,12 145,2 170,10 195,3 220,13 245,5 270,15 295,4 320,11 345,2 370,14 395,6 420,12 445,3 470,15 495,5 520,10 545,2 570,13 595,4 620,11 645,3 670,15 695,6 720,12 745,2 770,14 795,5 820,10 845,3 870,13 895,4 920,11 945,2 970,15 995,6 1020,12 1045,3 1070,14 1095,5 1120,10 1145,3 1170,13 1200,6 1200,26"></polygon></svg></div>
+
+<!-- ============================================================
+     SUBMISSION FORM
+     ============================================================ -->
+<section>
+  <div class="wrap">
+    <div class="section-head tight" style="margin-left:auto; margin-right:auto; text-align:center;">
+      <span class="eyebrow">Ready to send it in?</span>
+      <h2>Submit your draft</h2>
+      <p style="margin:0 auto;">Fill out your details, upload your completed template, and add a photo (unless you'd rather stay anonymous).</p>
+    </div>
+
+    <div class="submit-form-card">
+      <form id="crForm">
+        <div class="form-grid-2">
+          <div class="form-row">
+            <label for="crName">Full name<span class="required-asterisk">*</span></label>
+            <input type="text" id="crName" required>
+          </div>
+          <div class="form-row">
+            <label for="crEmail">Email address<span class="required-asterisk">*</span></label>
+            <input type="email" id="crEmail" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <label for="crCountry">Country your submission focuses on<span class="required-asterisk">*</span> <span class="hint">(write global if it's applicable to all countries facing the issue)</span></label>
+          <input type="text" id="crCountry" placeholder="e.g. Kenya" required>
+        </div>
+
+        <div class="form-consent" style="margin-bottom:18px;">
+          <input type="checkbox" id="crAnonymous">
+          <label for="crAnonymous">I'd like to remain anonymous (your name and photo won't be published).</label>
+        </div>
+
+        <div class="form-row">
+          <label for="crPhoto">
+            Your photo<span class="required-asterisk" id="crPhotoAsterisk">*</span>
+            <span class="info-tip">
+              <span class="info-icon">i</span>
+              <span class="info-bubble">Square crop, at least 600&times;600px, plain or clear background, high quality, your face centered in frame. Formal attire if possible.</span>
+            </span>
+          </label>
+          <input type="file" id="crPhoto" accept="image/*">
+        </div>
+
+        <div class="form-row">
+          <label for="crSubmission">Your submission<span class="required-asterisk">*</span> <span class="hint">(your filled-out CR template)</span></label>
+          <input type="file" id="crSubmission" accept=".pdf,.doc,.docx,.md,.txt" required>
+        </div>
+
+        <div class="form-consent">
+          <input type="checkbox" id="crConsent" required>
+          <label for="crConsent">I've read the rights &amp; ownership section above and understand my submission becomes Chronocept Revolutions' property if accepted, with credit given to me unless I've chosen to remain anonymous.</label>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;">Submit draft</button>
+        <div class="form-success" id="crSuccess">Thanks, your draft has been received. We'll be in touch once it's been reviewed.</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<div id="siteFooter"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/supabase-client.js"></script>
+<script src="assets/shared.js"></script>
+<script>
+  const crAnonymous = document.getElementById("crAnonymous");
+  const crPhoto = document.getElementById("crPhoto");
+  const crPhotoAsterisk = document.getElementById("crPhotoAsterisk");
+  crAnonymous.addEventListener("change", () => {
+    crPhoto.required = !crAnonymous.checked;
+    crPhotoAsterisk.style.display = crAnonymous.checked ? "none" : "inline";
+    if (crAnonymous.checked) crPhoto.value = "";
+  });
+  crPhoto.required = true;
+
+  document.getElementById("crForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const submitBtn = form.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Submitting...";
+
+    try {
+      const isAnonymous = crAnonymous.checked;
+      const photoFile = crPhoto.files[0];
+      const submissionFile = document.getElementById("crSubmission").files[0];
+      let photo_path = null;
+      let submission_path = null;
+
+      if (photoFile) {
+        const safeName = `${Date.now()}-${photoFile.name}`.replace(/[^a-zA-Z0-9.\-_]/g, "_");
+        const { error: uploadError } = await supabaseClient.storage.from("cr-photos").upload(safeName, photoFile);
+        if (uploadError) throw uploadError;
+        photo_path = safeName;
+      }
+
+      if (submissionFile) {
+        const safeName = `${Date.now()}-${submissionFile.name}`.replace(/[^a-zA-Z0-9.\-_]/g, "_");
+        const { error: uploadError } = await supabaseClient.storage.from("cr-submissions").upload(safeName, submissionFile);
+        if (uploadError) throw uploadError;
+        submission_path = safeName;
+      }
+
+      const { error: insertError } = await supabaseClient.from("submissions").insert({
+        name: document.getElementById("crName").value.trim(),
+        email: document.getElementById("crEmail").value.trim(),
+        country: document.getElementById("crCountry").value.trim(),
+        anonymous: isAnonymous,
+        photo_path,
+        submission_path,
+      });
+      if (insertError) throw insertError;
+
+      document.getElementById("crSuccess").classList.add("is-visible");
+      form.reset();
+    } catch (err) {
+      alert("Something went wrong submitting your draft: " + err.message);
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Submit draft";
+    }
+  });
+</script>
+</body>
+</html>
