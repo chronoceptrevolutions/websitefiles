@@ -113,6 +113,16 @@ section{padding:88px 0; position:relative;}
   display:flex; align-items:center; justify-content:space-between;
   padding-top:16px; padding-bottom:16px; gap:14px;
 }
+.nav-brand-group{display:flex; align-items:center; gap:14px; flex:none;}
+.nav-home-link{
+  display:flex; align-items:center; gap:8px;
+  font-family:var(--sans); font-weight:600; color:var(--ink-soft);
+  font-size:13px; white-space:nowrap; text-decoration:none;
+  padding:7px 12px 7px 7px; border-radius:999px; border:1px solid var(--line);
+  background:var(--paper-card); transition:all .2s ease;
+}
+.nav-home-link:hover{border-color:var(--green-teal); color:var(--green-deep);}
+.nav-home-link img{height:22px; width:22px; object-fit:contain; border-radius:50%;}
 .nav-mark{
   font-family:var(--serif); font-weight:700; color:var(--green);
   font-size:18px; white-space:nowrap; text-decoration:none; flex:none;
@@ -125,7 +135,7 @@ section{padding:88px 0; position:relative;}
 .nav-links a{
   text-decoration:none; font-size:12px; font-weight:600;
   color:var(--ink-soft); white-space:nowrap;
-  padding:7px 8px; border-radius:20px; transition:all .2s ease;
+  padding:7px 10px; border-radius:999px; transition:all .2s ease;
 }
 .nav-links a:hover, .nav-links a.active{background:var(--green); color:var(--paper-card);}
 
@@ -448,14 +458,19 @@ footer .wrap{display:flex; justify-content:space-between; align-items:flex-end; 
      ============================================================ -->
 <nav class="navbar">
   <div class="wrap">
-    <a href="#hero" class="nav-mark">AK</a>
+    <div class="nav-brand-group">
+      <a href="../index.html" class="nav-home-link" title="Back to Chronocept Revolutions">
+        <img src="../assets/img/logo.png" alt="Chronocept Revolutions logo">
+        Home
+      </a>
+      <a href="#hero" class="nav-mark">AK</a>
+    </div>
     <ul class="nav-links" id="navLinks">
       <li><a href="#hero">Profile Summary</a></li>
       <li><a href="#skills">Professional Skills</a></li>
       <li><a href="#countries">Countries of Experience</a></li>
       <li><a href="#experience">Professional Experience</a></li>
       <li><a href="#education">Education</a></li>
-      <li><a href="#languages">Languages</a></li>
       <li><a href="#leadership">Leadership Experience</a></li>
     </ul>
   </div>
@@ -1024,6 +1039,19 @@ document.getElementById('countryGroups').innerHTML = `
   <h4>Project Engagements</h4>
   <ul class="country-list">${projectCountries.map(c => `<li>${c.name}</li>`).join('')}</ul>
 `;
+
+// In-page nav links (including the AK mark) scroll smoothly to their section
+// without changing the URL hash or adding browser history entries, so the
+// back button takes visitors straight back to the Chronocept Revolutions
+// site instead of stepping through each section they viewed.
+document.querySelectorAll('a[href^="#"]').forEach((a) => {
+  a.addEventListener('click', (e) => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (!target) return;
+    e.preventDefault();
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
 
 // Nav active-state on scroll
 const navLinks = document.querySelectorAll('.nav-links a');
