@@ -1,7 +1,7 @@
 /* ============================================================
    SHARED NAV + FOOTER
    NAV_ITEMS.enabled controls the "coming soon" flag described in
-   the spec — Learning / Opportunities / Profile stay built as
+   the spec. Learning / Opportunities / Profile stay built as
    routes but hidden from the public nav until switched on here.
    ============================================================ */
 const NAV_ITEMS = [
@@ -68,7 +68,6 @@ function renderFooter() {
       </div>
       <div class="wrap footer-bottom">
         <span>&copy; 2026 Chronocept Revolutions.</span>
-        <span>Site in active development &mdash; some sections use placeholder content.</span>
       </div>
     </footer>
   `;
