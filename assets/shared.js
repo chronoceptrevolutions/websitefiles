@@ -64,6 +64,7 @@ function renderFooter() {
           <a href="index.html">Home</a>
           <a href="content.html">Content</a>
           <a href="submit-a-cr.html">Submit a CR</a>
+          <a href="privacy.html">Privacy</a>
         </div>
       </div>
       <div class="wrap footer-bottom">
