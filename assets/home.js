@@ -4,11 +4,33 @@
    helpers live in content-render.js (both loaded before this file).
    ============================================================ */
 
-/* Countries with published content, derived from CONTENT_ITEMS so the
-   map highlight never drifts out of sync with the actual data. */
 const COUNTRIES_WITH_CONTENT = new Set(CONTENT_ITEMS.filter((c) => c.country).map((c) => c.country.iso));
 
-/* ---------- FILTER BAR (sorts the global content ribbon) ---------- */
+const RIBBON_MAX = 6;
+
+/* view = { type: "sort", sort: "newest" | "global" | "most-viewed" }
+        | { type: "country", iso: number, name: string } */
+let homeView = { type: "sort", sort: "global" };
+
+function itemsForView(view) {
+  if (view.type === "country") {
+    return sortByNewest(CONTENT_ITEMS.filter((c) => c.country && c.country.iso === view.iso));
+  }
+  if (view.sort === "most-viewed") return sortByViews(CONTENT_ITEMS);
+  if (view.sort === "global") return sortByNewest(CONTENT_ITEMS.filter((c) => !c.country));
+  return sortByNewest(CONTENT_ITEMS);
+}
+
+function renderHomeRibbon() {
+  const mount = document.getElementById("homeContentRibbon");
+  const emptyNote = document.getElementById("ribbonEmptyNote");
+  if (!mount) return;
+  const items = itemsForView(homeView).slice(0, RIBBON_MAX);
+  renderCardGrid(mount, items);
+  if (emptyNote) emptyNote.style.display = items.length ? "none" : "block";
+}
+
+/* ---------- FILTER BAR ---------- */
 function wireFilterBar() {
   const bar = document.getElementById("filterBar");
   if (!bar) return;
@@ -17,15 +39,12 @@ function wireFilterBar() {
     if (!btn) return;
     bar.querySelectorAll(".filter-pill").forEach((b) => b.classList.remove("active"));
     btn.classList.add("active");
-    const filter = btn.dataset.filter;
-    let items = getGlobalContent();
-    if (filter === "most-viewed") items = sortByViews(items);
-    else items = sortByNewest(items);
-    renderCardGrid(document.getElementById("globalContentRibbon"), items);
+    homeView = { type: "sort", sort: btn.dataset.filter };
+    renderHomeRibbon();
   });
 }
 
-/* ---------- WORLD MAP (D3 + topojson, same approach as the portfolio site) ---------- */
+/* ---------- WORLD MAP (D3 + topojson) ---------- */
 function wireWorldMap() {
   const svg = d3.select("#map-svg");
   const tooltip = document.getElementById("mapTooltip");
@@ -53,7 +72,10 @@ function wireWorldMap() {
         })
         .on("mouseleave", () => tooltip.classList.remove("is-visible"))
         .on("click", (event, d) => {
-          window.location.href = "country.html?name=" + encodeURIComponent(d.properties.name) + "&iso=" + d.id;
+          document.querySelectorAll("#filterBar .filter-pill").forEach((b) => b.classList.remove("active"));
+          homeView = { type: "country", iso: +d.id, name: d.properties.name };
+          renderHomeRibbon();
+          document.getElementById("homeContentRibbon").scrollIntoView({ behavior: "smooth", block: "nearest" });
         });
     })
     .catch(() => {
@@ -77,24 +99,14 @@ function wireSubscribeForm() {
     submitBtn.disabled = true;
     submitBtn.textContent = "Submitting...";
 
-    const email = document.getElementById("subEmail").value.trim();
-    const cvFile = document.getElementById("subCv").files[0];
-    let cv_path = null;
-
     try {
-      if (cvFile) {
-        const safeName = `${Date.now()}-${cvFile.name}`.replace(/[^a-zA-Z0-9.\-_]/g, "_");
-        const { error: uploadError } = await supabaseClient.storage
-          .from("cvs")
-          .upload(safeName, cvFile);
-        if (uploadError) throw uploadError;
-        cv_path = safeName;
-      }
-
-      const { error: insertError } = await supabaseClient
-        .from("subscribers")
-        .insert({ email, cv_path });
-      if (insertError) throw insertError;
+      const { error } = await supabaseClient.from("subscribers").insert({
+        name: document.getElementById("subName").value.trim(),
+        email: document.getElementById("subEmail").value.trim(),
+        country: document.getElementById("subCountry").value.trim(),
+        age_group: document.getElementById("subAge").value,
+      });
+      if (error) throw error;
 
       success.classList.add("is-visible");
       form.reset();
@@ -107,67 +119,10 @@ function wireSubscribeForm() {
   });
 }
 
-/* ---------- CONTACT MODAL ---------- */
-function wireContactModal() {
-  const openBtn = document.getElementById("openContactModal");
-  const closeBtn = document.getElementById("closeContactModal");
-  const overlay = document.getElementById("contactModal");
-  const form = document.getElementById("contactForm");
-  const success = document.getElementById("contactSuccess");
-  if (!openBtn || !overlay) return;
-
-  const open = () => {
-    overlay.classList.add("is-open");
-    document.body.style.overflow = "hidden";
-  };
-  const close = () => {
-    overlay.classList.remove("is-open");
-    document.body.style.overflow = "";
-  };
-
-  openBtn.addEventListener("click", open);
-  closeBtn.addEventListener("click", close);
-  overlay.addEventListener("click", (e) => {
-    if (e.target === overlay) close();
-  });
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && overlay.classList.contains("is-open")) close();
-  });
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const visitorEmail = document.getElementById("contactEmail").value;
-    const subject = encodeURIComponent("New message from Chronocept Revolutions site");
-    const body = encodeURIComponent(`A visitor wants to get in touch.\n\nTheir email: ${visitorEmail}`);
-    window.location.href = `mailto:chronoceptrevolutions@gmail.com?subject=${subject}&body=${body}`;
-    success.classList.add("is-visible");
-    form.reset();
-  });
-}
-
-/* ---------- "About Athreya Kannan" link ----------
-   No live portfolio URL provided yet — points at '#' until one is supplied. */
-function wireAboutLink() {
-  const link = document.getElementById("aboutFounderLink");
-  if (!link) return;
-  const PORTFOLIO_URL = null; // TODO: set the live portfolio URL once deployed
-  if (PORTFOLIO_URL) {
-    link.href = PORTFOLIO_URL;
-  } else {
-    link.addEventListener("click", (e) => {
-      e.preventDefault();
-      alert("Portfolio link not set yet — add the live URL in assets/home.js (PORTFOLIO_URL).");
-    });
-  }
-}
-
 document.addEventListener("DOMContentLoaded", () => {
-  renderCardGrid(document.getElementById("globalContentRibbon"), sortByNewest(getGlobalContent()));
-  syncYouTubeStats(CONTENT_ITEMS).then(() => {
-    renderCardGrid(document.getElementById("globalContentRibbon"), sortByNewest(getGlobalContent()));
-  });
+  renderHomeRibbon();
+  syncYouTubeStats(CONTENT_ITEMS).then(renderHomeRibbon);
   wireFilterBar();
   wireWorldMap();
   wireSubscribeForm();
-  wireContactModal();
-  wireAboutLink();
 });
