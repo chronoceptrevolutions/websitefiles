@@ -5,6 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Submit a CR: Chronocept Revolutions</title>
 <meta name="description" content="Bring us an Issue, how another country handles it, and your proposed Solution. We'll turn it into a video and credit you as the contributor.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Chronocept Revolutions">
+<meta property="og:title" content="Submit a CR: Chronocept Revolutions">
+<meta property="og:description" content="Bring us an Issue, how another country handles it, and your proposed Solution. We'll turn it into a video and credit you as the contributor.">
+<meta property="og:image" content="https://chronoceptrevolutions.com/assets/img/logo.png">
+<meta property="og:url" content="https://chronoceptrevolutions.com/submit-a-cr.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Submit a CR: Chronocept Revolutions">
+<meta name="twitter:description" content="Bring us an Issue, how another country handles it, and your proposed Solution.">
 <link rel="icon" href="assets/img/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -252,6 +261,10 @@
           <input type="checkbox" id="crConsent" required>
           <label for="crConsent">I've read the rights &amp; ownership section above and understand my submission becomes Chronocept Revolutions' property if accepted, with credit given to me unless I've chosen to remain anonymous.</label>
         </div>
+        <div class="hp-field" aria-hidden="true">
+          <label for="crWebsite">Leave this field blank</label>
+          <input type="text" id="crWebsite" name="website" tabindex="-1" autocomplete="off">
+        </div>
         <button type="submit" class="btn btn-primary" style="width:100%;">Submit draft</button>
         <div class="form-success" id="crSuccess">Thanks, your draft has been received. We'll be in touch once it's been reviewed.</div>
       </form>
@@ -278,6 +291,14 @@
   document.getElementById("crForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     const form = e.target;
+
+    const crHoneypot = document.getElementById("crWebsite");
+    if (crHoneypot && crHoneypot.value.trim() !== "") {
+      document.getElementById("crSuccess").classList.add("is-visible");
+      form.reset();
+      return;
+    }
+
     const submitBtn = form.querySelector('button[type="submit"]');
     submitBtn.disabled = true;
     submitBtn.textContent = "Submitting...";
