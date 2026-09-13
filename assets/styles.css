@@ -78,6 +78,11 @@ section{padding:88px 0; position:relative;}
 
 .required-asterisk{color:#B3261E; margin-left:2px;}
 
+/* honeypot field: invisible to real visitors, catches simple spam bots
+   that fill in every field on a form. Never use display:none for this,
+   some bots skip hidden fields on purpose, off-screen positioning fools more of them. */
+.hp-field{position:absolute; left:-9999px; top:-9999px; width:1px; height:1px; overflow:hidden;}
+
 ::selection{background:var(--blue-pale); color:var(--blue-deep);}
 :focus-visible{outline:2px solid var(--blue); outline-offset:3px;}
 
