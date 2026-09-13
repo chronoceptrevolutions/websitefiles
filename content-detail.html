@@ -41,6 +41,72 @@
   .blog-section p{font-size:16.5px; color:var(--ink); line-height:1.75; margin:0;}
   .related-section{background:var(--paper-card-2);}
   .not-found{padding:140px 0 160px; text-align:center;}
+
+  /* ---------- FULL RESEARCH ARTICLE (converted from Word docs) ---------- */
+  .research-article{font-size:16px; color:var(--ink); line-height:1.8;}
+  .research-article h2{font-size:22px; margin:34px 0 12px;}
+  .research-article h3{font-size:18px; margin:26px 0 10px;}
+  .research-article p{margin:0 0 18px;}
+  .research-article ul, .research-article ol{margin:0 0 18px; padding-left:22px;}
+  .research-article li{margin-bottom:6px;}
+  .research-article a{color:var(--blue-teal); text-decoration:underline; text-underline-offset:2px;}
+  .research-article a:hover{color:var(--blue);}
+  /* footnote-style citation markers inline in the text, e.g. text<sup><a href="#ref1">1</a></sup> */
+  .research-article sup a{
+    font-size:11px; font-weight:700; text-decoration:none; color:var(--blue-teal);
+    padding:0 2px;
+  }
+  .research-article sup a:hover{text-decoration:underline;}
+  /* references list at the bottom of the article */
+  .research-article .ref-list{
+    margin-top:34px; padding-top:22px; border-top:1px solid var(--line);
+    list-style:none; padding-left:0; counter-reset:ref;
+  }
+  .research-article .ref-list li{
+    counter-increment:ref; font-size:13.5px; color:var(--ink-soft);
+    padding-left:26px; position:relative; margin-bottom:10px; line-height:1.6;
+  }
+  .research-article .ref-list li::before{
+    content:"[" counter(ref) "]"; position:absolute; left:0; color:var(--ink-faint);
+    font-family:var(--mono); font-size:12px;
+  }
+  .research-article .ref-list a{word-break:break-word;}
+  .research-article .ref-back{margin-left:6px; text-decoration:none;}
+
+  /* table of contents box, jumps to sections lower on the same page */
+  .research-toc{
+    background:var(--paper-card); border:1px solid var(--line); border-radius:12px;
+    padding:20px 24px; margin-bottom:30px;
+  }
+  .research-toc .toc-label{
+    font-family:var(--mono); text-transform:uppercase; letter-spacing:.08em;
+    font-size:12px; color:var(--blue-teal); display:block; margin-bottom:10px;
+  }
+  .research-toc ol{margin:0; padding-left:20px;}
+  .research-toc ol ol{margin-top:4px; padding-left:20px;}
+  .research-toc li{margin-bottom:5px; font-size:14px;}
+  .research-toc a{color:var(--ink); text-decoration:none;}
+  .research-toc a:hover{color:var(--blue-teal); text-decoration:underline;}
+
+  /* acronym list + data tables pulled from the Word doc */
+  .research-article table{
+    width:100%; border-collapse:collapse; margin:0 0 20px; font-size:14px;
+  }
+  .research-article caption{
+    text-align:left; font-family:var(--mono); font-size:12px; text-transform:uppercase;
+    letter-spacing:.05em; color:var(--ink-faint); margin-bottom:8px; caption-side:top;
+  }
+  .research-article th, .research-article td{
+    text-align:left; padding:9px 12px; border-bottom:1px solid var(--line);
+  }
+  .research-article th{font-family:var(--mono); font-size:11.5px; text-transform:uppercase; color:var(--ink-faint);}
+  .research-article .table-source{font-size:12.5px; color:var(--ink-faint); margin:-8px 0 24px;}
+
+  .research-article .case-callout{
+    background:var(--paper-card-2); border-left:4px solid var(--blue-teal);
+    border-radius:8px; padding:16px 20px; margin:0 0 24px;
+  }
+  .research-article .case-callout p{margin:8px 0 0;}
 </style>
 </head>
 <body data-page="content.html">
@@ -67,6 +133,11 @@
     <div class="blog-section">
       <span class="blog-label">The Solution</span>
       <p id="detailSolution"></p>
+    </div>
+
+    <div class="blog-section" id="researchSection" style="display:none;">
+      <span class="blog-label">Full Research</span>
+      <div class="research-article" id="researchMount"></div>
     </div>
   </div>
 </section>
@@ -103,7 +174,7 @@
   if (!item) {
     document.getElementById("notFoundSection").style.display = "block";
   } else {
-    document.title = item.title + " — Chronocept Revolutions";
+    document.title = item.title + ": Chronocept Revolutions";
     document.getElementById("detailSection").style.display = "block";
     document.getElementById("relatedSection").style.display = "block";
 
@@ -120,7 +191,7 @@
       document.getElementById("videoEmbedMount").innerHTML = `
         <div class="video-embed-placeholder">
           <div class="play-lg"><svg viewBox="0 0 24 24" fill="#243824"><path d="M8 5v14l11-7z"/></svg></div>
-          <p>This item isn't linked to a YouTube video yet — add a youtubeVideoId in content-data.js to embed it here.</p>
+          <p>This item isn't linked to a YouTube video yet. Add a youtubeVideoId in content-data.js to embed it here.</p>
         </div>`;
     }
 
@@ -142,6 +213,18 @@
             <div class="name">${item.contributor.name}</div>
           </div>
         </div>`;
+    }
+
+    if (item.researchFile) {
+      fetch(item.researchFile)
+        .then((res) => (res.ok ? res.text() : Promise.reject()))
+        .then((html) => {
+          document.getElementById("researchMount").innerHTML = html;
+          document.getElementById("researchSection").style.display = "block";
+        })
+        .catch(() => {
+          document.getElementById("researchSection").style.display = "none";
+        });
     }
 
     renderCardGrid(document.getElementById("relatedGrid"), getRelatedContent(item, 4));
