@@ -17,7 +17,7 @@ function itemsForView(view) {
     return sortByNewest(CONTENT_ITEMS.filter((c) => c.country && c.country.iso === view.iso));
   }
   if (view.sort === "most-viewed") return sortByViews(CONTENT_ITEMS);
-  if (view.sort === "global") return sortByNewest(CONTENT_ITEMS.filter((c) => !c.country));
+  if (view.sort === "global") return sortByNewest(CONTENT_ITEMS);
   return sortByNewest(CONTENT_ITEMS);
 }
 
