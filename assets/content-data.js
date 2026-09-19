@@ -14,6 +14,7 @@ const COUNTRY_META = {
   276: { name: "Germany" },
   404: { name: "Kenya" },
   586: { name: "Pakistan" },
+  524: { name: "Nepal" },
 };
 
 function makeItem(o) {
@@ -85,6 +86,22 @@ const CONTENT_ITEMS = [
     solution:
       "Stop treating politicians like celebrities, use RTI rights to demand transparency, hold media coverage accountable for its framing, ask real questions at public forums, and vote on performance instead of identity.",
     researchFile: "research/vip-culture-india.html",
+  }),
+  makeItem({
+    id: "nepal-bhote-koshi-flood",
+    title: "Nepal's $4.7 Billion Disaster: Where's the Aid?",
+    youtubeVideoId: "gxBrlErj8e8",
+    iso: 524,
+    tags: ["Disaster Finance", "Climate Policy", "Public Finance"],
+    views: 0,
+    date: "2026-09-19",
+    issue:
+      "A glacier collapse above Rasuwa on August 26, 2026 sent a flood down the Bhote Koshi and Trishuli rivers, killing more than 1,300 people and leaving a $4.7 billion reconstruction bill against a $150 million pre-arranged financing facility.",
+    howOthersDoIt:
+      "The Philippines has kept its own World Bank Cat DDO facility at a stable $500 million for fourteen years, renewing and restructuring it on a standing schedule, while Bhutan physically lowered a dangerous glacial lake between 2008 and 2012 to prevent an outburst before it happened.",
+    solution:
+      "Put Nepal's Cat DDO on a redesign cycle instead of a one-off number, build a standing climate resilience office insulated from politics, rebuild hydropower away from the same flood-prone river corridors, and push the global Loss and Damage Fund to actually pay out pledges rather than let them sit.",
+    researchFile: "research/nepal-bhote-koshi-flood.html",
   }),
   makeItem({
     id: "introduction",
