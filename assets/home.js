@@ -115,7 +115,7 @@ function wireSubscribeForm() {
         name: document.getElementById("subName").value.trim(),
         email: document.getElementById("subEmail").value.trim(),
         country: document.getElementById("subCountry").value.trim(),
-        age_group: document.getElementById("subAge").value,
+        age: document.getElementById("subAge").value,
       });
       if (error) throw error;
 
